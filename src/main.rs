@@ -20,14 +20,16 @@ async fn main() {
     };
     //format network url
     let network_ip = format!("http://{ip}:3000");
-    //checking the formated link
-    println!("{network_ip}");
-    let code = QrCode::new(network_ip).unwrap();
+    // show qrcode
+    let code = QrCode::new(&network_ip).unwrap();
     let qr_image = code.render::<unicode::Dense1x2>()
         .dark_color(unicode::Dense1x2::Dark)
         .light_color(unicode::Dense1x2::Light)
         .build();
-    print!("{qr_image}");
+    println!("{qr_image}");
+
+    //checking the formated link
+    println!("The server is running on {network_ip}");
     let app = Router::new().route("/",get(|| async {
         "Hello axum"
     }));
