@@ -1,4 +1,5 @@
 use axum::{Router, routing::get};
+use figlet_rs::FIGfont;
 use local_ip_address::local_ip;
 use qrcode::QrCode;
 use qrcode::render::unicode;
@@ -7,6 +8,10 @@ use std::env;
 async fn main() {
     let args: Vec<String> = env::args().collect();
 
+    //Title banner
+    let standard_font = FIGfont::standard().unwrap();
+    println!("{}", standard_font.convert("WORM HOLE").unwrap());
+    
     if args.len() == 1 {
         return;
     }
