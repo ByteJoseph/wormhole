@@ -2,8 +2,14 @@ use axum::{Router, routing::get};
 use local_ip_address::local_ip;
 use qrcode::QrCode;
 use qrcode::render::unicode;
+use std::env;
 #[tokio::main]
 async fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() == 1 {
+        return;
+    }
     //get ip on LAN
     let ip = match local_ip() {
         Ok(ip) => ip,
@@ -24,7 +30,7 @@ async fn main() {
     println!("{qr_image}");
 
     //checking the formated link
-    println!("The server is running on {network_ip}");
+    println!("URL Endpoint: {network_ip}");
     let app = Router::new().route("/", get(|| async { "Hello Test" }));
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
