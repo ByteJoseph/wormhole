@@ -7,6 +7,9 @@
   <img src="https://img.shields.io/badge/GNU%20Bash-4EAA25?style=for-the-badge&logo=GNU%20Bash&logoColor=white" alt="GNU Bash Badge">
   <img src="https://img.shields.io/badge/iTerm2-000000?style=for-the-badge&logo=iterm2&logoColor=white" alt="iTerm2 Badge">
 </p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ByteJoseph/ByteJoseph/refs/heads/main/.github/preview-wormhole.png" alt="Wormhole Preview" >
+</p>
 
 
 Wormhole is a CLI tool that allows users to transfer files to devices on the same local network. It generates a QR code that can be scanned by any phone or browser-enabled device, enabling simple and fast file transfers.
