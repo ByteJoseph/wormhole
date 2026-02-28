@@ -3,7 +3,6 @@ use local_ip_address::local_ip;
 use qrcode::QrCode;
 use qrcode::render::unicode;
 use rand::{Rng, rng};
-// use std::env;
 use clap::Parser;
 use colored::*;
 use std::fs;
@@ -19,36 +18,16 @@ struct Cli {
 }
 fn main() {
     let port: u32 = rng().random_range(1001..=6000);
-    #[allow(unused_variables)]
+
     //Title banner
-    let standard_font = FIGfont::standard().unwrap();
-    let banner = standard_font.convert("WORM HOLE").unwrap();
-    println!("{}", banner.to_string().blue());
-    println!(
-        "{}",
-        "News: Upcoming release will support file transfer without a physical modem or router."
-            .blue()
-            .bold()
-    );
+    print_title();
+
     let args = Cli::parse();
-    let ip = match local_ip() {
-        Ok(ip) => ip,
-        Err(e) => {
-            println!("There is no Local Area network");
-            eprintln!("{e}");
-            //for next release
-            "192.168.1.1".parse().unwrap()
-        }
-    };
+    let ip = get_ip();
+
     //format network url
-    let network_ip = format!("http://{ip}:{port}");
-    // show qrcode
-    let code = QrCode::new(&network_ip).unwrap();
-    let qr_image = code
-        .render::<unicode::Dense1x2>()
-        .dark_color(unicode::Dense1x2::Dark)
-        .light_color(unicode::Dense1x2::Light)
-        .build();
+    let network_url = format!("http://{ip}:{port}");
+
     let f_path = match &args.filename {
         Some(path) => path,
         None => {
@@ -69,14 +48,54 @@ fn main() {
         .unwrap()
         .to_string_lossy()
         .to_string();
-    let server = Server::http(format!("0.0.0.0:{port}")).unwrap();
-    println!("Scan this QR code using phone");
-    println!("{qr_image}");
 
-    //checking the formated link
-    println!("URL Endpoint: {network_ip}");
+    println!("Scan this QR code using phone \n[Tip: Press ctrl+c to exit]");
+    print_qr(network_url);
+    
     // serve file
-    for request in server.incoming_requests() {
+    serve_files(&f_name,&f_path,&port);
+}
+/// Returns the current local ip address
+/// If no lan ip is available, returns a default 192.168.1.1
+fn get_ip() -> std::net::IpAddr {
+    match local_ip() {
+        Ok(ip) => ip,
+        Err(e) => {
+            println!("There is no Local Area network");
+            eprintln!("{e}");
+            //for next release
+            "192.168.1.1".parse().unwrap()
+        }
+    }
+}
+/// Prints the title banner
+fn print_title() {
+    let standard_font = FIGfont::standard().unwrap();
+    let banner = standard_font.convert("WORM HOLE").unwrap();
+    println!("{}", banner.to_string().blue());
+    println!(
+        "{}",
+        "News: Upcoming release will support file transfer without a physical modem or router."
+            .blue()
+            .bold()
+    );
+}
+/// Prints the qr code
+fn print_qr(network_url: String) {
+    let code = QrCode::new(&network_url).unwrap();
+    let qr_image = code
+        .render::<unicode::Dense1x2>()
+        .dark_color(unicode::Dense1x2::Dark)
+        .light_color(unicode::Dense1x2::Light)
+        .build();
+    println!("{qr_image}");
+    println!("URL Endpoint: {network_url}");
+}
+
+/// serve the file to the incoming connections
+fn serve_files(f_name: &str,f_path: &str,port: &u32) {
+  let server = Server::http(format!("0.0.0.0:{port}")).unwrap();
+      for request in server.incoming_requests() {
         println!(
             "Connected to: {:?}",
             request.remote_addr().expect("REASON").ip()
@@ -100,7 +119,7 @@ fn main() {
             .with_header(
                 Header::from_bytes(
                     &b"Content-Disposition"[..],
-                    format!("attachment; filename=\"{}\"", f_name).as_bytes(),
+                    format!("attachment; filename=\"{}\"", &f_name).as_bytes(),
                 )
                 .unwrap(),
             );
