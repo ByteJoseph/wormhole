@@ -1,8 +1,8 @@
 [package]
 name = "wormhole"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2024"
-author = "Joseph Joseph"
+authors = ["Joseph Joseph <josephnjoseph43@gmail.com>"]
 
 [dependencies]
 clap = { version = "4.5.42", features = ["derive"] }
