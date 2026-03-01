@@ -5,7 +5,6 @@ on:
     tags:
       - "v*.*.*"
 
-# 🔑 REQUIRED (fixes "Resource not accessible by integration")
 permissions:
   contents: write
 
@@ -28,6 +27,18 @@ jobs:
             target: x86_64-pc-windows-msvc
             binary: wormhole.exe
             asset_name: wormhole-windows-x86_64.exe
+
+          # 🍎 macOS Intel
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            binary: wormhole
+            asset_name: wormhole-macos-x86_64
+
+          # 🍎 macOS Apple Silicon
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            binary: wormhole
+            asset_name: wormhole-macos-arm64
 
     steps:
       - name: Checkout
