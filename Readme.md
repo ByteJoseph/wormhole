@@ -19,7 +19,7 @@ Wormhole is a CLI tool that allows users to transfer files to devices on the sam
 ##  Features
 
 - **Local-Only File Sharing** (no internet connection required)
-- **QR Code Generation** (scan to recieve directly on phones)  
+- **QR Code Generation** (scan to receive directly on phones)  
 - **Automatic LAN IP Detection**  
 - **Supports all file types** (served as `application/octet-stream`)  
 - **Simple CLI Interface** 
@@ -46,5 +46,5 @@ wormhole <filename>
 ```bash
 wormhole example.pdf
 ```
-## To Recieve
+## To Receive
 Scan the displayed QR code using your mobile phone camera or any QR scanning app. The file will automatically begin downloading in the browser
