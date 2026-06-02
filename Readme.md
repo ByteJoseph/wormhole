@@ -15,6 +15,11 @@
 Wormhole is a CLI tool that allows users to transfer files to devices on the same local network. It generates a QR code that can be scanned by any phone or browser-enabled device, enabling simple and fast file transfers.
 
 ---
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=kqcJImqvlPk">
+    <img src="https://img.shields.io/badge/%20Watch%20Video-YouTube-red?style=for-the-badge&logo=youtube" alt="Watch Video">
+  </a>
+</p>
 
 ##  Features
 
